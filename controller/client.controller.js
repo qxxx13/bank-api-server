@@ -2,10 +2,10 @@ const db = require("../db");
 
 class ClientController {
     async createClient(req, res) {
-        const { fullName, cardNumber, address, bankCode } = req.body;
+        const { fullname, cardnumber, address, bankcode } = req.body;
         const newClient = await db.query(
-            `INSERT INTO client (fullName, cardNumber, address) values ($1, $2, $3, $4) RETURNING *`,
-            [fullName, cardNumber, address, bankCode]
+            `INSERT INTO client (fullname, cardnumber, address, bankcode) values ($1, $2, $3, $4) RETURNING *`,
+            [fullname, cardnumber, address, bankcode]
         );
         res.json(newClient.rows[0]);
     }

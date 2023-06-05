@@ -2,10 +2,11 @@ const db = require("../db");
 
 class BankController {
     async createBank(req, res) {
-        const { name, legalAddress } = req.body;
-        const newBank = await db.query(`INSERT INTO bank (name, legalAddress) values ($1, $2) RETURNING *`, [
+        const { name, legalAddress, image } = req.body;
+        const newBank = await db.query(`INSERT INTO bank (name, legalAddress, image) values ($1, $2, $3) RETURNING *`, [
             name,
             legalAddress,
+            image,
         ]);
         res.json(newBank.rows[0]);
     }
@@ -19,12 +20,11 @@ class BankController {
         res.json(bank.rows[0]);
     }
     async updateBank(req, res) {
-        const { id, name, legalAddress } = req.body;
-        const bank = await db.query("UPDATE bank set name = $1, legalAddress = $2 where id = $3 RETURNING *", [
-            name,
-            legalAddress,
-            id,
-        ]);
+        const { id, name, legalAddress, image } = req.body;
+        const bank = await db.query(
+            "UPDATE bank set name = $1, legalAddress = $2, image = $3 where id = $4 RETURNING *",
+            [name, legalAddress, image, id]
+        );
         res.json(bank.rows);
     }
     async deleteBank(req, res) {
